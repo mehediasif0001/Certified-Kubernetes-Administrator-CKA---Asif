@@ -5,6 +5,15 @@ metadata:
     app: blu-deploy
   name: blu-deploy
 spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node
+            operator: In
+            values:
+            - asif 
   replicas: 1
   selector:
     matchLabels:
