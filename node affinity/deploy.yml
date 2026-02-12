@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: blu-deploy
+  name: blu-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blu-deploy
+  template:
+    metadata:
+      labels:
+        app: blu-deploy
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
