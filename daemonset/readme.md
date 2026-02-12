@@ -13,7 +13,11 @@ Remove these fields from the YAML:
 spec.replicas
 spec.strategy
 status (entire section, if present)
+
+final file is : https://github.com/mehediasif0001/Certified-Kubernetes-Administrator-CKA---Asif/blob/main/daemonset/daemonset.yml
+
 Finally, create the DaemonSet using:
 ```
 kubectl create -f fluentd.yaml
 ```
+
