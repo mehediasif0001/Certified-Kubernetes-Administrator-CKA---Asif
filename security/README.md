@@ -68,4 +68,52 @@ agent-smith   4m10s   kubernetes.io/kube-apiserver-client           agent-x     
 controlplane ~ ➜  k delete csr agent-smith
 certificatesigningrequest.certificates.k8s.io "agent-smith" deleted
 ```
+#network policy
 
+How many network policies do you see in the environment? What is the name of the Network Policy?
+
+```
+controlplane ~ ➜  k get networkpolicies 
+NAME             POD-SELECTOR   AGE
+payroll-policy   name=payroll   2m34s
+```
+
+Which pod is the Network Policy applied on?
+
+Use the command kubectl get netpol and look under the Pod Selector column.
+
+```
+controlplane ~ ➜  k describe networkpolicies payroll-policy
+Name:         payroll-policy
+Namespace:    default
+Created on:   2026-02-15 21:19:37 +0000 UTC
+Labels:       <none>
+Annotations:  <none>
+Spec:
+  PodSelector:     name=payroll     <<<<---- this is pod label which is   Network Policy applied on
+  Allowing ingress traffic:
+    To Port: 8080/TCP
+    From:
+      PodSelector: name=internal  
+  Not affecting egress traffic
+  Policy Types: Ingress
+```
+
+```
+controlplane ~ ➜  k get po --show-labels | grep name=payroll
+payroll    1/1     Running   0          10m   name=payroll
+```
+
+◼ Task: Create Egress NetworkPolicy
+
+• Create a NetworkPolicy named internal-policy in the default namespace
+• Apply it to pods with label name=internal
+• Allow egress traffic only to:
+▸ mysql on TCP 3306
+▸ payroll on TCP 8080
+▸ DNS (kube-system) on TCP/UDP 53
+
+• Block all other outbound traffic
+l
+
+ans : https://github.com/mehediasif0001/Certified-Kubernetes-Administrator-CKA---Asif/blob/main/security/NetworkPolicy.yml
