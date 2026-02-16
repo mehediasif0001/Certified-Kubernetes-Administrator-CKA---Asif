@@ -62,8 +62,15 @@ use this command
 netstat -anp | grep -i etcd
 ```
  -p, --programs           display PID/Program name for sockets
+
+ 
  -n, --numeric            don't resolve names
+
+
+ 
  -a, --all                display all sockets (default: connected)
+
+ 
 
 
  then grep port 
