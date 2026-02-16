@@ -84,4 +84,64 @@ controlplane ~ ➜  netstat -anp | grep -i etcd | grep 2381 | wc -l
 ```
 
 ans : 64
- 
+
+
+
+ Inspect the kubelet service and identify the container runtime endpoint value is set for Kubernetes.
+
+ ```
+controlplane ~ ➜  cat /var/lib/kubelet/config.yaml | grep -i endpoint
+containerRuntimeEndpoint: unix:///var/run/containerd/containerd.sock
+```
+ans: unix:///var/run/containerd/containerd.sock
+
+
+
+What is the path configured with all binaries of CNI supported plugins?
+
+```
+controlplane ~ ➜  ls /opt/cni/bin
+bandwidth  dummy     host-device  LICENSE   portmap    sbr     tuning
+bridge     firewall  host-local   loopback  ptp        static  vlan
+dhcp       flannel   ipvlan       macvlan   README.md  tap     vrf
+```
+ans is : The CNI binaries are located under /opt/cni/bin by default.
+
+
+What is the CNI plugin configured to be used on this kubernetes cluster?
+
+ans: Run the command: ls /etc/cni/net.d/ and identify the name of the plugin.
+
+```
+controlplane ~ ➜  cd /etc/cni/net.d/
+
+controlplane /etc/cni/net.d ➜  ls
+10-flannel.conflist
+```
+```
+controlplane /etc/cni/net.d ➜  cat 10-flannel.conflist 
+{
+  "name": "cbr0",
+  "cniVersion": "0.3.1",
+  "plugins": [
+    {
+      "type": "flannel",
+      "delegate": {
+        "hairpinMode": true,
+        "isDefaultGateway": true
+      }
+    },
+    {
+      "type": "portmap",
+      "capabilities": {
+        "portMappings": true
+      }
+    }
+  ]
+}
+```
+
+
+
+
+
