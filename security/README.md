@@ -117,3 +117,6 @@ payroll    1/1     Running   0          10m   name=payroll
 l
 
 ans : https://github.com/mehediasif0001/Certified-Kubernetes-Administrator-CKA---Asif/blob/main/security/NetworkPolicy.yml
+
+
+
