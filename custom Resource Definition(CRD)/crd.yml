@@ -1,0 +1,43 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # Fully qualified name of the Custom Resource (plural.group)
+  name: internals.datasets.kodekloud.com
+spec:
+  # API group under which this Custom Resource is registered
+  group: datasets.kodekloud.com
+
+  # Supported versions for this Custom Resource
+  versions:
+    - name: v1
+      served: true        # Enables this version to be served by the API server
+      storage: true       # Marks this version as the storage version in etcd
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                # Represents internal system load or workload category
+                internalLoad:
+                  type: string
+
+                # Defines an integer-based range value for the resource
+                range:
+                  type: integer
+
+                # Indicates utilization or allocation percentage
+                percentage:
+                  type: string
+
+  # Scope defines whether the resource is namespaced or cluster-wide
+  scope: Namespaced
+
+  # Naming configuration for the Custom Resource
+  names:
+    plural: internals           # Used in API endpoints
+    singular: internal          # Singular name of the resource
+    kind: Internal              # Kind used in manifests
+    shortNames:
+    - int                       # Short alias for kubectl usage
