@@ -1,0 +1,33 @@
+# Kustomization file demonstrating all JSON 6902 operations
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - mongo-depl.yaml
+  - api-depl.yaml
+  - mongo-service.yaml
+
+# JSON 6902 patches with all operations
+patches:
+  - target:
+      kind: Deployment
+      name: mongo-deployment
+    patch: |-
+      # 1️⃣ REMOVE 'org' label from pod template
+      - op: remove
+        path: /spec/template/metadata/labels/org
+
+      # 2️⃣ ADD a new label 'env: dev'
+      - op: add
+        path: /spec/template/metadata/labels/env
+        value: dev
+
+      # 3️⃣ REPLACE the image of mongo container
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: mongo:6.0
+
+      # 4️⃣ TEST that replicas == 1
+      - op: test
+        path: /spec/replicas
+        value: 1
