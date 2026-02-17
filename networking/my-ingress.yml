@@ -1,0 +1,40 @@
+# API version for Ingress resource (Kubernetes v1 stable API)
+apiVersion: networking.k8s.io/v1
+
+# Resource type: Ingress (used for HTTP/HTTPS routing)
+kind: Ingress
+
+metadata:
+  # Name of the Ingress resource
+  name: critical-ingress
+
+  # Namespace where this Ingress will be created
+  namespace: critical-space
+
+  annotations:
+    # Rewrite incoming request path to root (/)
+    # Example: /pay → /
+    nginx.ingress.kubernetes.io/rewrite-target: /
+
+spec:
+  # Specify which Ingress Controller should handle this resource
+  # Here we are using NGINX Ingress Controller
+  ingressClassName: nginx
+
+  # Rules must always be a LIST
+  rules:
+  - http:
+      paths:
+      # Path-based routing configuration
+      - path: /pay
+        # Prefix means all paths starting with /pay will be matched
+        pathType: Prefix
+
+        backend:
+          # Backend service to which traffic will be forwarded
+          service:
+            name: pay-service
+
+            # Service port where the application is running
+            port:
+              number: 8080
