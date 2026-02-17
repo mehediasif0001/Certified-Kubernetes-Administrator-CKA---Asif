@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: my-kustomization-file
+
+commonLabels:
+  app: hello
+
+resources:
+- db/db-config.yaml
+- db/db-service.yaml
+- db/db-depl.yaml
+- message-broker/rabbitmq-config.yaml
+- message-broker/rabbitmq-service.yaml
+- message-broker/rabbitmq-depl.yaml
+- nginx/nginx-service.yaml
+- nginx/nginx-depl.yaml
