@@ -1,0 +1,50 @@
+# Kubernetes stable API for Ingress resources
+apiVersion: networking.k8s.io/v1
+
+# Resource type: Ingress (controls external access to services)
+kind: Ingress
+
+metadata:
+  # Namespace where the application is deployed
+  namespace: webapp
+
+  # Name of the Ingress resource
+  name: web-app-ingress
+
+  annotations:
+    # Force HTTP traffic to redirect to HTTPS
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+
+    # Rewrite request URI to root (/)
+    # Example: https://app.kodekloud.local/anything → /
+    nginx.ingress.kubernetes.io/rewrite-target: /
+
+spec:
+  # Ingress Controller responsible for this resource
+  ingressClassName: nginx
+
+  # TLS configuration (HTTPS enablement)
+  tls:
+  - hosts:
+      # Domain secured with TLS
+      - app.kodekloud.local
+    # Kubernetes Secret containing TLS certificate and key
+    secretName: app-tls
+
+  # Host-based routing rules
+  rules:
+  - host: app.kodekloud.local
+    http:
+      paths:
+      # Route all incoming traffic to backend service
+      - path: /
+        # Prefix matches all paths starting with "/"
+        pathType: Prefix
+
+        backend:
+          # Backend Kubernetes Service
+          service:
+            name: web-app
+            # Port exposed by the Service
+            port:
+              number: 80
