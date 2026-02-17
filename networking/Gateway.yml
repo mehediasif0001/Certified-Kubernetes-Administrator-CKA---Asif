@@ -1,0 +1,33 @@
+# Kubernetes Gateway API (stable v1)
+apiVersion: gateway.networking.k8s.io/v1
+
+# Resource type: Gateway
+# Acts as the entry point for external traffic
+kind: Gateway
+
+metadata:
+  # Name of the Gateway resource
+  name: nginx-gateway
+
+  # Namespace where the Gateway is deployed
+  namespace: nginx-gateway
+
+spec:
+  # GatewayClass that defines which controller manages this Gateway
+  # Here: NGINX Gateway Controller
+  gatewayClassName: nginx
+
+  # Listeners define how traffic is accepted
+  listeners:
+  - name: http
+    # Protocol handled by this listener
+    protocol: HTTP
+
+    # Port exposed by the Gateway
+    port: 80
+
+    # Control which namespaces are allowed to attach routes
+    allowedRoutes:
+      namespaces:
+        # Allow routes from all namespaces
+        from: All
