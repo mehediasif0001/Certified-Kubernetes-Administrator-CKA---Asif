@@ -1,0 +1,29 @@
+# Kubernetes Gateway API resource for HTTP routing
+apiVersion: gateway.networking.k8s.io/v1
+
+# Resource type: HTTPRoute
+kind: HTTPRoute
+
+metadata:
+  # Name of the HTTPRoute
+  name: frontend-route
+
+spec:
+  # Reference to the parent Gateway
+  parentRefs:
+  - name: nginx-gateway
+    namespace: nginx-gateway
+
+  # Routing rules
+  rules:
+  - matches:
+    # Match requests with path starting from "/"
+    - path:
+        type: PathPrefix
+        value: /
+
+    # Backend service where traffic will be forwarded
+    backendRefs:
+    - name: frontend-svc
+      # Service port
+      port: 80
